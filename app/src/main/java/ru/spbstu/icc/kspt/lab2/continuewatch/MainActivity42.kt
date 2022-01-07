@@ -8,12 +8,15 @@ class MainActivity42 : AppCompatActivity(){
     var secondsElapsed: Int = 0
     lateinit var textSecondsElapsed: TextView
     private val SECONDS = "seconds"
+    var collapsed = true;
 
     var backgroundThread = Thread {
         while (true) {
             Thread.sleep(1000)
-            textSecondsElapsed.post {
-                textSecondsElapsed.setText("Seconds elapsed: " + secondsElapsed++)
+            if (collapsed) {
+                textSecondsElapsed.post {
+                    textSecondsElapsed.setText("Seconds elapsed: " + secondsElapsed++)
+                }
             }
         }
     }
@@ -37,5 +40,15 @@ class MainActivity42 : AppCompatActivity(){
         savedInstanceState.run {
             secondsElapsed = getInt(SECONDS)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        collapsed = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        collapsed = false
     }
 }

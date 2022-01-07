@@ -24,6 +24,7 @@ class MainActivity43 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        textSecondsElapsed = findViewById(R.id.textSecondsElapsed)
         sharedPreferences = getSharedPreferences(APP, MODE_PRIVATE)
         if (sharedPreferences.contains(SECONDS)) {
             secondsElapsed = sharedPreferences.getInt(SECONDS, 0)
