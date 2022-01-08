@@ -14,7 +14,6 @@ class Coroutines : AppCompatActivity() {
     private val SECONDS = "seconds"
     private val APP = "ContinueWatch"
     lateinit var sharedPreferences: SharedPreferences
-    private val TAG = "state"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,13 +21,16 @@ class Coroutines : AppCompatActivity() {
         sharedPreferences = getSharedPreferences(APP, MODE_PRIVATE)
         textSecondsElapsed = findViewById(R.id.textSecondsElapsed)
         lifecycleScope.launchWhenResumed {
-            Log.d(TAG,"Thread launched")
             while (true) {
                 delay(1000)
-                textSecondsElapsed.text = getString(R.string.text, secondsElapsed++)
+                textSecondsElapsed.text = ("Seconds elapsed:" + secondsElapsed++)
             }
         }
-        Log.d(TAG,"Activity created")
+    }
+
+    override fun onStart() {
+        secondsElapsed = sharedPreferences.getInt(SECONDS, secondsElapsed)
+        super.onStart()
     }
 
     override fun onStop() {
@@ -36,13 +38,6 @@ class Coroutines : AppCompatActivity() {
             putInt(SECONDS, secondsElapsed)
             apply()
         }
-        Log.d(TAG,"Activity stopped")
         super.onStop()
-    }
-
-    override fun onStart() {
-        secondsElapsed = sharedPreferences.getInt(SECONDS, secondsElapsed)
-        super.onStart()
-        Log.d(TAG,"Activity started")
     }
 }

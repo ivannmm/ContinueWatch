@@ -18,20 +18,18 @@ class ExecutorService : AppCompatActivity(){
 
 
     private val backgroundThread = Runnable {
-        Thread.currentThread().name = "Thread" + Thread.currentThread().id
-        Log.d(APP, "Created thread " + Thread.currentThread().name)
         while (!Thread.currentThread().isInterrupted) {
             try {
                 Thread.sleep(1000)
                 textSecondsElapsed.post {
-                    textSecondsElapsed.text = getString(R.string.text, secondsElapsed++)
+                    textSecondsElapsed.text = ("Seconds elapsed:" + secondsElapsed++)
                 }
             } catch (e: InterruptedException) {
                 Thread.currentThread().interrupt()
-                Log.d(APP, "Interrupted thread")
             }
         }
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,21 +38,20 @@ class ExecutorService : AppCompatActivity(){
         textSecondsElapsed = findViewById(R.id.textSecondsElapsed)
     }
 
+    override fun onStart() {
+        secondsElapsed = sharedPreferences.getInt(SECONDS, secondsElapsed)
+        future = service.submit(backgroundThread)
+        super.onStart()
+    }
+
     override fun onStop() {
         with(sharedPreferences.edit()) {
-            putInt(SECONDS, secondsElapsed) // передаем ключ и значение,которое хоти записать
-            apply() // сохраняем его
+            putInt(SECONDS, secondsElapsed)
+            apply()
         }
         future.cancel(true)
-        Log.d(APP, "Activity stopped")
         super.onStop()
 
     }
 
-    override fun onStart() {
-        secondsElapsed = sharedPreferences.getInt(SECONDS, secondsElapsed)
-        future = service.submit(backgroundThread)
-        Log.d(APP, "Activity started")
-        super.onStart()
-    }
 }

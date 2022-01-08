@@ -14,6 +14,7 @@ class Threads : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
     private lateinit var thread: Thread
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,7 +38,7 @@ class Threads : AppCompatActivity() {
                 try {
                     Thread.sleep(1000)
                     textSecondsElapsed.post {
-                        textSecondsElapsed.text = getString(R.string.text, secondsElapsed++)
+                        textSecondsElapsed.text = ("Seconds elapsed:" + secondsElapsed++)
                     }
                 } catch (e: InterruptedException) {
                     Thread.currentThread().interrupt()

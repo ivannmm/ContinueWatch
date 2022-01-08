@@ -8,12 +8,12 @@ class MainActivity42 : AppCompatActivity(){
     var secondsElapsed: Int = 0
     lateinit var textSecondsElapsed: TextView
     private val SECONDS = "seconds"
-    var collapsed = true;
+    var collapsed = false
 
     var backgroundThread = Thread {
         while (true) {
             Thread.sleep(1000)
-            if (collapsed) {
+            if (!collapsed) {
                 textSecondsElapsed.post {
                     textSecondsElapsed.setText("Seconds elapsed: " + secondsElapsed++)
                 }
@@ -44,11 +44,11 @@ class MainActivity42 : AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
-        collapsed = true
+        collapsed = false
     }
 
     override fun onStop() {
         super.onStop()
-        collapsed = false
+        collapsed = true
     }
 }
