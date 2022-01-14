@@ -1,10 +1,10 @@
-package ru.spbstu.icc.kspt.lab2.continuewatch
+package ru.spbstu.icc.kspt.lab2.continuewatch.lab6
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import ru.spbstu.icc.kspt.lab2.continuewatch.R
 
 class Threads : AppCompatActivity() {
     var secondsElapsed: Int = 0
