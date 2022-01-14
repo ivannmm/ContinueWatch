@@ -11,12 +11,15 @@ class MainActivity43 : AppCompatActivity() {
     private val SECONDS = "seconds"
     private val APP = "ContinueWatch"
     lateinit var sharedPreferences: SharedPreferences
+    var collapsed = false
 
     var backgroundThread = Thread {
         while (true) {
-            Thread.sleep(1000)
-            textSecondsElapsed.post {
-                textSecondsElapsed.setText("Seconds elapsed: " + secondsElapsed++)
+            if (!collapsed) {
+                Thread.sleep(1000)
+                textSecondsElapsed.post {
+                    textSecondsElapsed.setText("Seconds elapsed: " + secondsElapsed++)
+                }
             }
         }
     }
@@ -44,6 +47,12 @@ class MainActivity43 : AppCompatActivity() {
     override fun onResume() {
         sharedPreferences = getSharedPreferences(APP, MODE_PRIVATE) ?: return
         secondsElapsed = sharedPreferences.getInt(SECONDS, 0);
+        collapsed = false
         super.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        collapsed = true
     }
 }
